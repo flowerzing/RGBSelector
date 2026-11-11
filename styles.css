@@ -108,6 +108,26 @@ h2 {
   background: #f4f3f0;
 }
 
+.picker-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+  padding: 12px;
+  color: #77777d;
+  background: #f4f3f0;
+  font-size: 13px;
+}
+
+.picker-field input {
+  width: 54px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
 .channel-list {
   display: grid;
   gap: 28px;

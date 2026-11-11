@@ -14,6 +14,7 @@ const updateColor = ({ updateHexInput = true } = {}) => {
 
   document.querySelector('#color-preview').style.backgroundColor = hex;
   document.querySelector('#preview-hex').textContent = hex;
+  document.querySelector('#color-picker').value = hex;
   if (updateHexInput) document.querySelector('#hex-input').value = hex.slice(1);
 
   channels.forEach((channel) => {
@@ -36,6 +37,10 @@ channels.forEach((channel) => {
 });
 
 document.querySelector('#hex-input').addEventListener('input', (event) => {
+  setColorFromHex(event.target.value);
+});
+
+document.querySelector('#color-picker').addEventListener('input', (event) => {
   setColorFromHex(event.target.value);
 });
 
