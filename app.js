@@ -26,6 +26,42 @@ const hexToRgb = (hex) => [
 
 const mixColors = (base, target, amount) => base.map((value, index) => value + (target[index] - value) * amount);
 
+const rgbToHsv = ([red, green, blue]) => {
+  const values = [red, green, blue].map((value) => value / 255);
+  const max = Math.max(...values);
+  const min = Math.min(...values);
+  const delta = max - min;
+  let hue = 0;
+
+  if (delta) {
+    if (max === values[0]) hue = 60 * (((values[1] - values[2]) / delta) % 6);
+    if (max === values[1]) hue = 60 * ((values[2] - values[0]) / delta + 2);
+    if (max === values[2]) hue = 60 * ((values[0] - values[1]) / delta + 4);
+  }
+
+  return [(hue + 360) % 360, max ? delta / max : 0, max];
+};
+
+const hsvToRgb = ([hue, saturation, value]) => {
+  const chroma = value * saturation;
+  const x = chroma * (1 - Math.abs((hue / 60) % 2 - 1));
+  const match = value - chroma;
+  const sectors = hue < 60 ? [chroma, x, 0] : hue < 120 ? [x, chroma, 0] : hue < 180 ? [0, chroma, x] : hue < 240 ? [0, x, chroma] : hue < 300 ? [x, 0, chroma] : [chroma, 0, x];
+  return sectors.map((channel) => Math.round((channel + match) * 255));
+};
+
+const updatePicker = () => {
+  const hsv = rgbToHsv(getChannelValues());
+  const hue = hsv[0];
+  const area = document.querySelector('#picker-area');
+  const handle = document.querySelector('#picker-handle');
+  area.style.backgroundColor = `hsl(${hue} 100% 50%)`;
+  handle.style.left = `${hsv[1] * 100}%`;
+  handle.style.top = `${(1 - hsv[2]) * 100}%`;
+  document.querySelector('#hue-slider').value = hue;
+  document.querySelector('#picker-preview').style.backgroundColor = document.querySelector('#preview-hex').textContent;
+};
+
 const createVariant = (hex, label) => {
   const button = document.createElement('button');
   button.className = 'variant-swatch';
@@ -74,13 +110,20 @@ const updateColor = ({ updateHexInput = true } = {}) => {
 
   document.querySelector('#color-preview').style.backgroundColor = hex;
   document.querySelector('#preview-hex').textContent = hex;
-  document.querySelector('#color-picker').value = hex;
   if (updateHexInput) document.querySelector('#hex-input').value = hex.slice(1);
 
   channels.forEach((channel) => {
     document.querySelector(`#${channel}-value`).textContent = document.querySelector(`#${channel}`).value;
   });
+  updatePicker();
   renderVariants();
+};
+
+const setColorFromRgb = (values) => {
+  channels.forEach((channel, index) => {
+    document.querySelector(`#${channel}`).value = values[index];
+  });
+  updateColor();
 };
 
 const setColorFromHex = (value) => {
@@ -101,8 +144,26 @@ document.querySelector('#hex-input').addEventListener('input', (event) => {
   setColorFromHex(event.target.value);
 });
 
-document.querySelector('#color-picker').addEventListener('input', (event) => {
-  setColorFromHex(event.target.value);
+const updateFromPickerPosition = (event) => {
+  const area = document.querySelector('#picker-area');
+  const bounds = area.getBoundingClientRect();
+  const saturation = Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width));
+  const value = Math.min(1, Math.max(0, 1 - (event.clientY - bounds.top) / bounds.height));
+  setColorFromRgb(hsvToRgb([Number(document.querySelector('#hue-slider').value), saturation, value]));
+};
+
+document.querySelector('#picker-area').addEventListener('pointerdown', (event) => {
+  event.currentTarget.setPointerCapture(event.pointerId);
+  updateFromPickerPosition(event);
+});
+
+document.querySelector('#picker-area').addEventListener('pointermove', (event) => {
+  if (event.buttons) updateFromPickerPosition(event);
+});
+
+document.querySelector('#hue-slider').addEventListener('input', (event) => {
+  const [, saturation, value] = rgbToHsv(getChannelValues());
+  setColorFromRgb(hsvToRgb([Number(event.target.value), saturation, value]));
 });
 
 document.querySelector('#random-color').addEventListener('click', () => {

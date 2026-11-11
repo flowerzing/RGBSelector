@@ -24,9 +24,16 @@
             <h2>Canales RGB</h2>
             <button id="random-color" type="button">Color aleatorio</button>
           </div>
-          <label class="picker-field">
+          <div class="picker-field">
             <span>Picker visual</span>
-            <input id="color-picker" type="color" value="#6e4cff" aria-label="Elegir color" />
+            <div class="picker-preview" id="picker-preview" aria-hidden="true"></div>
+          </div>
+          <div class="picker-area" id="picker-area" aria-label="Área de saturación y brillo" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100">
+            <span class="picker-handle" id="picker-handle"></span>
+          </div>
+          <label class="hue-field">
+            <span>Matiz</span>
+            <input id="hue-slider" type="range" min="0" max="360" value="252" aria-label="Matiz del color" />
           </label>
           <div class="channel-list">
             <label class="channel">

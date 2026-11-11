@@ -119,13 +119,48 @@ h2 {
   font-size: 13px;
 }
 
-.picker-field input {
+.picker-preview {
   width: 54px;
   height: 32px;
-  padding: 0;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
+  background: #6e4cff;
+  border: 1px solid rgb(0 0 0 / 10%);
+}
+
+.picker-area {
+  position: relative;
+  height: 150px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  background-color: #6e4cff;
+  background-image: linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.picker-handle {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 45%);
+  pointer-events: none;
+}
+
+.hue-field {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 26px;
+  color: #77777d;
+  font-size: 13px;
+}
+
+.hue-field input {
+  width: 100%;
+  accent-color: #1f2024;
 }
 
 .channel-list {
