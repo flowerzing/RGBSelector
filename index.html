@@ -20,7 +20,10 @@
           <span id="preview-hex">#6E4CFF</span>
         </div>
         <div class="controls">
-          <h2>Canales RGB</h2>
+          <div class="controls-heading">
+            <h2>Canales RGB</h2>
+            <button id="random-color" type="button">Color aleatorio</button>
+          </div>
           <div class="channel-list">
             <label class="channel">
               <span>Rojo</span>
@@ -38,6 +41,10 @@
               <output id="blue-value">255</output>
             </label>
           </div>
+          <label class="hex-field">
+            <span>Valor HEX</span>
+            <input id="hex-input" type="text" value="6E4CFF" maxlength="6" spellcheck="false" />
+          </label>
         </div>
       </section>
     </main>

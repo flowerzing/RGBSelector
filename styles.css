@@ -83,9 +83,29 @@ h1 {
 }
 
 h2 {
-  margin-bottom: 40px;
+  margin-bottom: 0;
   font-size: 24px;
   letter-spacing: -0.04em;
+}
+
+.controls-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.controls-heading button {
+  padding: 8px 10px;
+  color: #1f2024;
+  background: transparent;
+  border: 1px solid #deddd9;
+  font-size: 12px;
+}
+
+.controls-heading button:hover {
+  background: #f4f3f0;
 }
 
 .channel-list {
@@ -111,6 +131,30 @@ h2 {
   color: #1f2024;
   font-family: monospace;
   text-align: right;
+}
+
+.hex-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid #deddd9;
+  color: #77777d;
+  font-size: 13px;
+}
+
+.hex-field input {
+  width: 90px;
+  padding: 8px 0;
+  color: #1f2024;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #1f2024;
+  font-family: monospace;
+  font-size: 16px;
+  text-align: right;
+  text-transform: uppercase;
 }
 
 @media (max-width: 680px) {
