@@ -1,4 +1,5 @@
 const channels = ['red', 'green', 'blue'];
+let savedColors = JSON.parse(localStorage.getItem('rgb-selector-colors') || '[]');
 
 const getChannelValues = () => channels.map((channel) => {
   const input = document.querySelector(`#${channel}`);
@@ -45,4 +46,38 @@ document.querySelector('#random-color').addEventListener('click', () => {
   updateColor();
 });
 
+const renderSavedColors = () => {
+  const container = document.querySelector('#saved-colors');
+  const emptyMessage = document.querySelector('#empty-message');
+  emptyMessage.hidden = savedColors.length > 0;
+  document.querySelector('#saved-count').textContent = `${savedColors.length} ${savedColors.length === 1 ? 'color' : 'colores'}`;
+  container.querySelectorAll('.saved-color').forEach((item) => item.remove());
+
+  savedColors.forEach((hex, index) => {
+    const item = document.createElement('div');
+    item.className = 'saved-color';
+    item.style.backgroundColor = hex;
+    item.innerHTML = `<span>${hex}</span><button class="remove-color" data-index="${index}" type="button" aria-label="Eliminar ${hex}">×</button>`;
+    container.append(item);
+  });
+};
+
+document.querySelector('#save-color').addEventListener('click', () => {
+  const hex = document.querySelector('#preview-hex').textContent;
+  if (!savedColors.includes(hex)) {
+    savedColors = [hex, ...savedColors];
+    localStorage.setItem('rgb-selector-colors', JSON.stringify(savedColors));
+    renderSavedColors();
+  }
+});
+
+document.querySelector('#saved-colors').addEventListener('click', (event) => {
+  const button = event.target.closest('.remove-color');
+  if (!button) return;
+  savedColors.splice(Number(button.dataset.index), 1);
+  localStorage.setItem('rgb-selector-colors', JSON.stringify(savedColors));
+  renderSavedColors();
+});
+
 updateColor();
+renderSavedColors();
