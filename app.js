@@ -1,6 +1,16 @@
 const channels = ['red', 'green', 'blue'];
 let savedColors = JSON.parse(localStorage.getItem('rgb-selector-colors') || '[]');
 
+const tailwindColors = [
+  ['Slate 500', '#64748B'], ['Gray 500', '#6B7280'], ['Zinc 500', '#71717A'],
+  ['Red 500', '#EF4444'], ['Orange 500', '#F97316'], ['Amber 500', '#F59E0B'],
+  ['Yellow 500', '#EAB308'], ['Lime 500', '#84CC16'], ['Green 500', '#22C55E'],
+  ['Emerald 500', '#10B981'], ['Teal 500', '#14B8A6'], ['Cyan 500', '#06B6D4'],
+  ['Sky 500', '#0EA5E9'], ['Blue 500', '#3B82F6'], ['Indigo 500', '#6366F1'],
+  ['Violet 500', '#8B5CF6'], ['Purple 500', '#A855F7'], ['Fuchsia 500', '#D946EF'],
+  ['Pink 500', '#EC4899'], ['Rose 500', '#F43F5E'],
+];
+
 const getChannelValues = () => channels.map((channel) => {
   const input = document.querySelector(`#${channel}`);
   return Number(input.value);
@@ -25,6 +35,20 @@ const createVariant = (hex, label) => {
   button.setAttribute('aria-label', `Usar color ${hex} (${label})`);
   button.addEventListener('click', () => setColorFromHex(hex));
   return button;
+};
+
+const renderTailwindColors = () => {
+  const container = document.querySelector('#tailwind-colors');
+  tailwindColors.forEach(([name, hex]) => {
+    const button = document.createElement('button');
+    button.className = 'tailwind-swatch';
+    button.type = 'button';
+    button.style.backgroundColor = hex;
+    button.innerHTML = `<strong>${name}</strong><small>${hex}</small>`;
+    button.setAttribute('aria-label', `Usar color Tailwind ${name}`);
+    button.addEventListener('click', () => setColorFromHex(hex));
+    container.append(button);
+  });
 };
 
 const renderVariants = () => {
@@ -123,3 +147,4 @@ document.querySelector('#saved-colors').addEventListener('click', (event) => {
 
 updateColor();
 renderSavedColors();
+renderTailwindColors();

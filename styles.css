@@ -310,6 +310,48 @@ h2 {
   outline-offset: -3px;
 }
 
+.tailwind-section {
+  margin-top: 80px;
+}
+
+.tailwind-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1px;
+  background: #deddd9;
+  border: 1px solid #deddd9;
+}
+
+.tailwind-swatch {
+  min-height: 88px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  color: #fff;
+  border: 0;
+  text-align: left;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 35%);
+  cursor: pointer;
+}
+
+.tailwind-swatch strong {
+  font-size: 12px;
+}
+
+.tailwind-swatch small {
+  margin-top: 3px;
+  font-family: monospace;
+  font-size: 10px;
+  opacity: .85;
+}
+
+.tailwind-swatch:hover,
+.tailwind-swatch:focus-visible {
+  outline: 3px solid #1f2024;
+  outline-offset: -3px;
+}
+
 @media (max-width: 680px) {
   .app {
     padding: 40px 0;
@@ -324,7 +366,8 @@ h2 {
   }
 
   .saved-colors,
-  .variant-grid {
+  .variant-grid,
+  .tailwind-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
