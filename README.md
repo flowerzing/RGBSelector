@@ -6,7 +6,8 @@ Herramienta web para crear y explorar colores desde una interfaz RGB.
 
 - Picker visual con área de saturación/brillo y control de matiz.
 - Ajuste de canales rojo, verde y azul.
-- Conversión desde HEX.
+- Conversión en tiempo real entre HEX, RGB, HSL y OKLCH.
+- Copiado individual de cada formato al portapapeles.
 - Generador de colores aleatorios.
 - Guardado de colores favoritos en el navegador.
 - Shades, tints y tones generados desde el color activo.
