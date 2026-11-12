@@ -432,8 +432,64 @@ h2 {
   border-radius: 50%;
 }
 
+.export-section,
 .variants-section {
   margin-top: 80px;
+}
+
+.export-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid #deddd9;
+  color: #77777d;
+  font-size: 13px;
+}
+
+.export-controls select {
+  margin-left: auto;
+  padding: 9px 30px 9px 10px;
+  color: #1f2024;
+  background: transparent;
+  border: 1px solid #deddd9;
+  font-size: 12px;
+}
+
+.export-controls button {
+  padding: 10px 14px;
+  color: #fff;
+  background: #1f2024;
+  border: 1px solid #1f2024;
+  font-size: 12px;
+}
+
+.export-controls button:hover {
+  color: #1f2024;
+  background: transparent;
+}
+
+:root[data-theme="dark"] .export-controls {
+  background: #222429;
+  border-color: #34363c;
+}
+
+:root[data-theme="dark"] .export-controls select {
+  color: #f4f3f0;
+  background: #222429;
+  border-color: #42454d;
+}
+
+:root[data-theme="dark"] .export-controls button {
+  color: #17181b;
+  background: #f4f3f0;
+  border-color: #f4f3f0;
+}
+
+:root[data-theme="dark"] .export-controls button:hover {
+  color: #f4f3f0;
+  background: transparent;
 }
 
 .variant-groups {
@@ -550,5 +606,14 @@ h2 {
 
   .variant-swatch {
     min-height: 64px;
+  }
+
+  .export-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .export-controls select {
+    margin-left: 0;
   }
 }

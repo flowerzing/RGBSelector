@@ -193,6 +193,7 @@ const renderSavedColors = () => {
   const emptyMessage = document.querySelector('#empty-message');
   emptyMessage.hidden = savedColors.length > 0;
   document.querySelector('#saved-count').textContent = `${savedColors.length} ${savedColors.length === 1 ? 'color' : 'colores'}`;
+  document.querySelector('#export-count').textContent = `${savedColors.length} ${savedColors.length === 1 ? 'color guardado' : 'colores guardados'}`;
   container.querySelectorAll('.saved-color').forEach((item) => item.remove());
 
   savedColors.forEach((hex, index) => {
@@ -219,6 +220,31 @@ document.querySelector('#saved-colors').addEventListener('click', (event) => {
   savedColors.splice(Number(button.dataset.index), 1);
   localStorage.setItem('rgb-selector-colors', JSON.stringify(savedColors));
   renderSavedColors();
+});
+
+const getExportColors = () => [...new Set([
+  document.querySelector('#preview-hex').textContent,
+  ...savedColors,
+])];
+
+const buildExport = (format, colors) => {
+  if (format === 'json') return JSON.stringify({ colors }, null, 2);
+  if (format === 'tailwind') {
+    const entries = colors.map((color, index) => `      "color-${index + 1}": "${color}"`).join(',\n');
+    return `export default {\n  theme: {\n    extend: {\n      colors: {\n${entries}\n      }\n    }\n  }\n};\n`;
+  }
+  return `:root {\n${colors.map((color, index) => `  --color-${index + 1}: ${color};`).join('\n')}\n}\n`;
+};
+
+document.querySelector('#export-palette').addEventListener('click', () => {
+  const format = document.querySelector('#export-format').value;
+  const extension = format === 'json' ? 'json' : format === 'tailwind' ? 'js' : 'css';
+  const blob = new Blob([buildExport(format, getExportColors())], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `rgb-palette.${extension}`;
+  link.click();
+  URL.revokeObjectURL(link.href);
 });
 
 updateColor();
