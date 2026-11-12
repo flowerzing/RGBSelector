@@ -50,6 +50,47 @@ const hsvToRgb = ([hue, saturation, value]) => {
   return sectors.map((channel) => Math.round((channel + match) * 255));
 };
 
+const rgbToHsl = (rgb) => {
+  const [red, green, blue] = rgb.map((channel) => channel / 255);
+  const max = Math.max(red, green, blue);
+  const min = Math.min(red, green, blue);
+  const lightness = (max + min) / 2;
+  const delta = max - min;
+  const saturation = delta === 0 ? 0 : delta / (1 - Math.abs(2 * lightness - 1));
+  const hue = rgbToHsv(rgb)[0];
+  return [hue, saturation, lightness];
+};
+
+const srgbToLinear = (channel) => {
+  const value = channel / 255;
+  return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+};
+
+const rgbToOklch = (rgb) => {
+  const [red, green, blue] = rgb.map(srgbToLinear);
+  const l = 0.4122214708 * red + 0.5363325363 * green + 0.0514459929 * blue;
+  const m = 0.2119034982 * red + 0.6806995451 * green + 0.1073969566 * blue;
+  const s = 0.0883024619 * red + 0.2817188376 * green + 0.6299787005 * blue;
+  const lRoot = Math.cbrt(l);
+  const mRoot = Math.cbrt(m);
+  const sRoot = Math.cbrt(s);
+  const lightness = 0.2104542553 * lRoot + 0.793617785 * mRoot - 0.0040720468 * sRoot;
+  const a = 1.9779984951 * lRoot - 2.428592205 * mRoot + 0.4505937099 * sRoot;
+  const b = 0.0259040371 * lRoot + 0.7827717662 * mRoot - 0.808675766 * sRoot;
+  const chroma = Math.sqrt(a ** 2 + b ** 2);
+  const hue = (Math.atan2(b, a) * 180 / Math.PI + 360) % 360;
+  return [lightness, chroma, hue];
+};
+
+const updateFormats = (rgb, hex) => {
+  const [hue, saturation, lightness] = rgbToHsl(rgb);
+  const [okLightness, okChroma, okHue] = rgbToOklch(rgb);
+  document.querySelector('#format-hex').textContent = hex;
+  document.querySelector('#format-rgb').textContent = `rgb(${rgb.join(', ')})`;
+  document.querySelector('#format-hsl').textContent = `hsl(${Math.round(hue)}, ${Math.round(saturation * 100)}%, ${Math.round(lightness * 100)}%)`;
+  document.querySelector('#format-oklch').textContent = `oklch(${okLightness.toFixed(2)} ${okChroma.toFixed(2)} ${Math.round(okHue)})`;
+};
+
 const updatePicker = () => {
   const hsv = rgbToHsv(getChannelValues());
   const hue = hsv[0];
@@ -110,6 +151,7 @@ const updateColor = ({ updateHexInput = true } = {}) => {
 
   document.querySelector('#color-preview').style.backgroundColor = hex;
   document.querySelector('#preview-hex').textContent = hex;
+  updateFormats(values, hex);
   if (updateHexInput) document.querySelector('#hex-input').value = hex.slice(1);
 
   channels.forEach((channel) => {
@@ -164,6 +206,16 @@ document.querySelector('#picker-area').addEventListener('pointermove', (event) =
 document.querySelector('#hue-slider').addEventListener('input', (event) => {
   const [, saturation, value] = rgbToHsv(getChannelValues());
   setColorFromRgb(hsvToRgb([Number(event.target.value), saturation, value]));
+});
+
+document.querySelectorAll('.copy-format').forEach((button) => {
+  button.addEventListener('click', async () => {
+    const value = document.querySelector(`#${button.dataset.format}`).textContent;
+    await navigator.clipboard.writeText(value);
+    const originalLabel = button.textContent;
+    button.textContent = 'Copiado';
+    window.setTimeout(() => { button.textContent = originalLabel; }, 1200);
+  });
 });
 
 document.querySelector('#random-color').addEventListener('click', () => {
