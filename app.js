@@ -162,6 +162,25 @@ document.querySelectorAll('.copy-format').forEach((button) => {
   });
 });
 
+const themeToggle = document.querySelector('#theme-toggle');
+const savedTheme = localStorage.getItem('rgb-selector-theme');
+if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+
+const updateThemeLabel = () => {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  themeToggle.textContent = dark ? 'Modo claro' : 'Modo oscuro';
+  themeToggle.setAttribute('aria-label', dark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+};
+
+themeToggle.addEventListener('click', () => {
+  const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = nextTheme;
+  localStorage.setItem('rgb-selector-theme', nextTheme);
+  updateThemeLabel();
+});
+
+updateThemeLabel();
+
 document.querySelector('#random-color').addEventListener('click', () => {
   channels.forEach((channel) => {
     document.querySelector(`#${channel}`).value = Math.floor(Math.random() * 256);

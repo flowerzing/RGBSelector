@@ -8,6 +8,65 @@
   font-family: Arial, sans-serif;
 }
 
+:root[data-theme="dark"] {
+  color: #f4f3f0;
+  background: #17181b;
+}
+
+:root[data-theme="dark"] .controls,
+:root[data-theme="dark"] .preview,
+:root[data-theme="dark"] .format-card,
+:root[data-theme="dark"] .variant-group,
+:root[data-theme="dark"] .saved-color,
+:root[data-theme="dark"] .tailwind-swatch {
+  border-color: #34363c;
+}
+
+:root[data-theme="dark"] .controls,
+:root[data-theme="dark"] .format-card,
+:root[data-theme="dark"] .variant-group {
+  background: #222429;
+}
+
+:root[data-theme="dark"] .intro,
+:root[data-theme="dark"] .overline,
+:root[data-theme="dark"] .channel,
+:root[data-theme="dark"] .picker-field,
+:root[data-theme="dark"] .hue-field,
+:root[data-theme="dark"] .hex-field,
+:root[data-theme="dark"] .section-heading > span,
+:root[data-theme="dark"] .format-name,
+:root[data-theme="dark"] .empty-message {
+  color: #aaaeb8;
+}
+
+:root[data-theme="dark"] .picker-field,
+:root[data-theme="dark"] .empty-message {
+  background: #2a2c32;
+  border-color: #42454d;
+}
+
+:root[data-theme="dark"] h1,
+:root[data-theme="dark"] h2,
+:root[data-theme="dark"] .channel output,
+:root[data-theme="dark"] .format-value code,
+:root[data-theme="dark"] .hex-field input,
+:root[data-theme="dark"] .controls-heading button,
+:root[data-theme="dark"] .copy-format {
+  color: #f4f3f0;
+}
+
+:root[data-theme="dark"] .controls-heading button,
+:root[data-theme="dark"] .copy-format {
+  border-color: #42454d;
+}
+
+:root[data-theme="dark"] .save-color {
+  color: #17181b;
+  background: #f4f3f0;
+  border-color: #f4f3f0;
+}
+
 body {
   margin: 0;
 }
@@ -21,6 +80,35 @@ body {
 .app-header {
   max-width: 560px;
   margin-bottom: 40px;
+}
+
+.header-topline {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.theme-toggle {
+  padding: 7px 10px;
+  color: #77777d;
+  background: transparent;
+  border: 1px solid #deddd9;
+  font-size: 11px;
+}
+
+.theme-toggle:hover {
+  color: #1f2024;
+  border-color: #1f2024;
+}
+
+:root[data-theme="dark"] .theme-toggle {
+  color: #aaaeb8;
+  border-color: #42454d;
+}
+
+:root[data-theme="dark"] .theme-toggle:hover {
+  color: #f4f3f0;
+  border-color: #f4f3f0;
 }
 
 .overline {
