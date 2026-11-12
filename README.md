@@ -12,11 +12,20 @@ Herramienta web para crear y explorar colores desde una interfaz RGB.
 - Guardado de colores favoritos en el navegador.
 - Shades, tints y tones generados desde el color activo.
 - Paleta de colores inspirada en Tailwind CSS.
-- Diseño responsive sin dependencias ni build.
+- Exportación de paletas como CSS variables, JSON o configuración Tailwind.
+- Tema claro y oscuro con preferencia persistente.
+- Tests automatizados para las conversiones de color.
+- Diseño responsive sin dependencias externas.
 
 ## Uso
 
-Abre `index.html` en un navegador moderno. La colección de colores se guarda en `localStorage` del navegador.
+Abre `index.html` en un navegador moderno. La colección de colores y el tema se guardan en `localStorage`.
+
+Los tests se ejecutan con:
+
+```bash
+npm test
+```
 
 ## Archivos
 
